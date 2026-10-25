@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Checks libphext-cs against core/test-vectors. See core/test-vectors/README.md for usage. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LibphextCs Condition="'$(LibphextCs)' == ''">$(MSBuildThisFileDirectory)../../../../libphext-cs/src/Phext/Phext.csproj</LibphextCs>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(LibphextCs)" />
+  </ItemGroup>
+</Project>

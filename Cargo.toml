@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = ["core/phext-stream", "core/phext-stream-capi"]
+exclude = ["fuzz", "core/test-vectors/check-cs"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Will Bickford <wbic16@gmail.com>"]
+repository = "https://github.com/wbic16/phext-http-streams"
+
+[profile.release]
+lto = true
+codegen-units = 1

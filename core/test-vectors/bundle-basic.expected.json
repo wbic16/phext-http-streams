@@ -1,0 +1,6 @@
+[
+  {"coord": "1.1.1/1.1.1/1.1.1", "text": "phext-bundle 1\n1.1.1/1.1.1/1.1.2 text/html /index.html\n1.1.1/1.1.1/1.1.3 text/css /app.css\n1.1.1/1.1.1/1.2.1 image/gif;base64 /dot.gif\nexternal image/jpeg /hero.jpg\n"},
+  {"coord": "1.1.1/1.1.1/1.1.2", "text": "<!doctype html><link rel=stylesheet href=/app.css><img src=/dot.gif><img src=/hero.jpg>\n"},
+  {"coord": "1.1.1/1.1.1/1.1.3", "text": "img{display:block}\n"},
+  {"coord": "1.1.1/1.1.1/1.2.1", "text": "R0lGODlhAQABAAAAACw="}
+]

@@ -1,0 +1,25 @@
+[package]
+name = "phext-stream-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+libphext = "0.3.1"
+phext-stream = { path = "../core/phext-stream" }
+
+# Kept out of the main workspace: needs nightly + cargo-fuzz (Linux/macOS). Run from the repo root:
+#   cargo +nightly fuzz run decode -- -max_total_time=86400
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "decode"
+path = "fuzz_targets/decode.rs"
+test = false
+doc = false
+bench = false

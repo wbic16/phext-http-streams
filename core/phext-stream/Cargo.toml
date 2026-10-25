@@ -1,0 +1,19 @@
+[package]
+name = "phext-stream"
+description = "Zero-copy streaming phext decoder/encoder and phext bundle reader"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[features]
+default = ["alloc"]
+# Header parsing, bundle reader, base64, and index need an allocator. The core
+# Decoder/Encoder/validate/find work without one.
+alloc = []
+
+[dependencies]
+
+[dev-dependencies]
+libphext = "0.3.1"

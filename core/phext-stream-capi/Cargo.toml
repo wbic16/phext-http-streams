@@ -1,0 +1,16 @@
+[package]
+name = "phext-stream-capi"
+description = "C ABI for phext-stream, for nginx, httpd, and other C/C++ hosts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[lib]
+name = "phext_stream_c"
+# staticlib for nginx/httpd modules. For wasm32 or a shared library use: cargo rustc --crate-type cdylib
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+phext-stream = { path = "../phext-stream" }
