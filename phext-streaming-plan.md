@@ -27,6 +27,19 @@ Baseline: [wbic16/libphext-rs](https://github.com/wbic16/libphext-rs) v0.3.1 (`s
 
 **Decision (2026-10-26): ship inline-everything as the default.** `phext-bundle` now inlines every asset (binaries as base64) unless given `--inline-max` / `--flight-budget` / `--budget-rounds` (budgeted mode, spec §3.2). Over HTTP/2, text-only bundles with binaries left to multiplexing tied the 2-round budget but were ~17% slower than inlining everything; over HTTP/1.1 they were up to 2.2× slower.
 
+**Status (2026-10-26): Phase 2 complete (nginx + httpd modules).**
+- `servers/phext-server` is one Rust static library behind both modules (`phext_server.h`). It builds a bundle from a directory, pre-encodes it as gzip (libdeflate), br and zstd, and fingerprints the directory for change detection. It also re-exports the Phase 0 C ABI.
+- `ngx_http_phext_module` (`phext_bundle`, `phext_serve`) and `mod_phext` (`PhextBundle`, `PhextServe`) both:
+  - send the smallest encoding the client accepts, with a per-encoding ETag (304) and `Vary`;
+  - serve bodies without copying, with reference counting;
+  - re-check off the request path (an nginx per-worker timer, an httpd watcher thread);
+  - support coordinate addressing (`/doc.phext;1.1.1;1.1.1;1.1.3`).
+- `servers/test.sh` passes 52/52 checks against both servers.
+- Chrome end-to-end through real nginx: the module is within 3 ms of nginx serving the same bundle statically in 15 of 16 cells.
+- Load: the module matches `gzip_static` throughput (~11k req/s over HTTP/2, all 2xx). A full rebuild of the 394 KB SPA bundle takes 13–18 ms per process.
+- Deviations from the original Phase 2 plan, both driven by the Phase 1 results: no gzip-filter flush integration (bundles are one-shot), and no preload/Early Hints (bundles inline everything; budgeted-mode externals get a `Link` header).
+- Open: event-driven change detection (inotify) instead of polling; first-visit cost of the Service Worker; Stage B (native Chromium).
+
 ## 1. Goal, stated precisely
 
 Deliver a multi-resource artifact (HTML + CSS + JS + data, potentially many logical channels) as **one phext stream on one HTTP response**, so the browser has everything it needs in the first response flight instead of discovering and fetching resources one round trip at a time.

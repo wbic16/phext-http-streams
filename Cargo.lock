@@ -177,6 +177,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "phext-server"
+version = "0.1.0"
+dependencies = [
+ "phext-bundle",
+ "phext-stream",
+ "phext-stream-capi",
+]
+
+[[package]]
 name = "phext-stream"
 version = "0.1.0"
 dependencies = [

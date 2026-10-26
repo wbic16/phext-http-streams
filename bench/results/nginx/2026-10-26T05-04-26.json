@@ -1,0 +1,1008 @@
+{
+  "config": {
+    "FIXTURES": [
+      "spa"
+    ],
+    "PROTOS": [
+      "h1",
+      "h2"
+    ],
+    "VARIANTS": [
+      "phext",
+      "phext-nginx",
+      "phext-nginx-static"
+    ],
+    "RTTS": [
+      50,
+      200
+    ],
+    "RUNS": 6,
+    "MBPS": 50
+  },
+  "results": [
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext",
+      "rtt": 50,
+      "doneMedian": 320.64999997615814,
+      "doneP90": 321.5,
+      "fcpMedian": 238,
+      "connections": 2,
+      "requests": 3,
+      "kbDown": 179.0419921875,
+      "invalid": 0,
+      "encoding": "gzip",
+      "runs": [
+        {
+          "done": 319.60000002384186,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 213.79999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183339,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 320.5,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 214.89999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183337,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 321.7000000476837,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 216.40000009536743,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183338,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 320.1999999284744,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 214.39999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183339,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 321.5,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 215.29999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183339,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 320.7999999523163,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 215.39999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183339,
+          "requests": 3,
+          "encoding": "gzip"
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext",
+      "rtt": 200,
+      "doneMedian": 1220.949999988079,
+      "doneP90": 1222.2999999523163,
+      "fcpMedian": 838,
+      "connections": 2,
+      "requests": 3,
+      "kbDown": 179.04150390625,
+      "invalid": 0,
+      "encoding": "gzip",
+      "runs": [
+        {
+          "done": 1219.6000000238419,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 813.6999999284744,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183338,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1221.7999999523163,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 816.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183340,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1411,
+          "ok": true,
+          "fcp": 1028,
+          "ttfb": 1005.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183340,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1220,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 813.8999999761581,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183339,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1222.2999999523163,
+          "ok": true,
+          "fcp": 840,
+          "ttfb": 816.6000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183337,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1220.1000000238419,
+          "ok": true,
+          "fcp": 840,
+          "ttfb": 814.7999999523163,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183338,
+          "requests": 3,
+          "encoding": "gzip"
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext-nginx",
+      "rtt": 50,
+      "doneMedian": 321.25,
+      "doneP90": 321.7999999523163,
+      "fcpMedian": 236,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 185.69091796875,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 320.89999997615814,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 213.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190147,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 320.7999999523163,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 214.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 321.7999999523163,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 210.79999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190149,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 320.10000002384186,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 210.80000007152557,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 321.60000002384186,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 214.70000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190146,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 323.89999997615814,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 213.69999992847443,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190146,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext-nginx",
+      "rtt": 200,
+      "doneMedian": 1220.75,
+      "doneP90": 1221.0999999046326,
+      "fcpMedian": 836,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 185.69140625,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 1219.7000000476837,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 809,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1220.6999999284744,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 810.6999999284744,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1220.8000000715256,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 813.7000000476837,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1221.0999999046326,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 811,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190147,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1230.7000000476837,
+          "ok": true,
+          "fcp": 848,
+          "ttfb": 823.8999999761581,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190145,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1220.5,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 810.4000000953674,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190148,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext-nginx-static",
+      "rtt": 50,
+      "doneMedian": 318.5999999642372,
+      "doneP90": 319.7999999523163,
+      "fcpMedian": 236,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 177.44091796875,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 319.7999999523163,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 209.89999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181699,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 318.7999999523163,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 210.89999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181699,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 318.39999997615814,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 210.69999992847443,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181701,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 317.1999999284744,
+          "ok": true,
+          "fcp": 228,
+          "ttfb": 209.29999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181701,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 322.40000009536743,
+          "ok": true,
+          "fcp": 240,
+          "ttfb": 213.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181700,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 317.8000000715256,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 213,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181699,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h1",
+      "variant": "phext-nginx-static",
+      "rtt": 200,
+      "doneMedian": 1219.949999988079,
+      "doneP90": 1220.6999999284744,
+      "fcpMedian": 836,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 177.44140625,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 1219.3000000715256,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 810.1000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181700,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1220.6999999284744,
+          "ok": true,
+          "fcp": 840,
+          "ttfb": 814.8999999761581,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181699,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1220.1999999284744,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 809.5999999046326,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181700,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1219.2999999523163,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 811.2000000476837,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181698,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1219.7000000476837,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 810.7000000476837,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181700,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1343,
+          "ok": true,
+          "fcp": 960,
+          "ttfb": 934.4000000953674,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181701,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext",
+      "rtt": 50,
+      "doneMedian": 314.94999998807907,
+      "doneP90": 316.3000000715256,
+      "fcpMedian": 232,
+      "connections": 2,
+      "requests": 3,
+      "kbDown": 178.23974609375,
+      "invalid": 0,
+      "encoding": "gzip",
+      "runs": [
+        {
+          "done": 314.89999997615814,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 209.20000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182507,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.3000000715256,
+          "ok": true,
+          "fcp": 244,
+          "ttfb": 211.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182508,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 313.5,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 208.30000007152557,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182483,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 516,
+          "ok": true,
+          "fcp": 432,
+          "ttfb": 409.09999990463257,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 183079,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 315,
+          "ok": true,
+          "fcp": 228,
+          "ttfb": 208.69999992847443,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182529,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 314.39999997615814,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 210.09999990463257,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182527,
+          "requests": 3,
+          "encoding": "gzip"
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext",
+      "rtt": 200,
+      "doneMedian": 1215.25,
+      "doneP90": 1216.3999999761581,
+      "fcpMedian": 834,
+      "connections": 2,
+      "requests": 3,
+      "kbDown": 178.19970703125,
+      "invalid": 0,
+      "encoding": "gzip",
+      "runs": [
+        {
+          "done": 1216.3999999761581,
+          "ok": true,
+          "fcp": 840,
+          "ttfb": 812.6000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182476,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1215.8000000715256,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 809,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182498,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1214.6000000238419,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 811,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182453,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1214.6999999284744,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 810.1999999284744,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182476,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1217.7999999523163,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 812,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182477,
+          "requests": 3,
+          "encoding": "gzip"
+        },
+        {
+          "done": 1212.8999999761581,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 806.3999999761581,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 182506,
+          "requests": 3,
+          "encoding": "gzip"
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext-nginx",
+      "rtt": 50,
+      "doneMedian": 316.60000002384186,
+      "doneP90": 318.10000002384186,
+      "fcpMedian": 232,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 185.06982421875,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 316.5,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 205.89999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189501,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 318.10000002384186,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 211.29999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189521,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 318.5,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 208.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189524,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 315.7000000476837,
+          "ok": true,
+          "fcp": 236,
+          "ttfb": 211.80000007152557,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189523,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 316.7000000476837,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 209.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189501,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 316,
+          "ok": true,
+          "fcp": 228,
+          "ttfb": 209.20000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189502,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext-nginx",
+      "rtt": 200,
+      "doneMedian": 1216.5999999642372,
+      "doneP90": 1217.1999999284744,
+      "fcpMedian": 832,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 185.06005859375,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 1214.7999999523163,
+          "ok": true,
+          "fcp": 828,
+          "ttfb": 806.1999999284744,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189501,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1269.2999999523163,
+          "ok": true,
+          "fcp": 892,
+          "ttfb": 863.6999999284744,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 190032,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1216.3999999761581,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 807.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189500,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1216.1000000238419,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 808.6000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189502,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1217.1999999284744,
+          "ok": true,
+          "fcp": 828,
+          "ttfb": 805.7999999523163,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189500,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1216.7999999523163,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 810.7000000476837,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 189523,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext-nginx-static",
+      "rtt": 50,
+      "doneMedian": 315.4000000357628,
+      "doneP90": 316.3000000715256,
+      "fcpMedian": 232,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 176.88037109375,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 315.10000002384186,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 207.29999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181147,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 315.7000000476837,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 209.40000009536743,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181123,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 314.90000009536743,
+          "ok": true,
+          "fcp": 228,
+          "ttfb": 205.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181126,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 316.3000000715256,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 207.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181125,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 314.6999999284744,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 206.09999990463257,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181125,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 316.3000000715256,
+          "ok": true,
+          "fcp": 232,
+          "ttfb": 210.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181146,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    },
+    {
+      "fixture": "spa",
+      "proto": "h2",
+      "variant": "phext-nginx-static",
+      "rtt": 200,
+      "doneMedian": 1215.9000000357628,
+      "doneP90": 1216.3999999761581,
+      "fcpMedian": 832,
+      "connections": 2,
+      "requests": 0,
+      "kbDown": 176.88134765625,
+      "invalid": 0,
+      "encoding": null,
+      "runs": [
+        {
+          "done": 1215,
+          "ok": true,
+          "fcp": 828,
+          "ttfb": 804.6000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181122,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1218.3999999761581,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 815,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181146,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1216.3999999761581,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 806.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181145,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1215.8000000715256,
+          "ok": true,
+          "fcp": 828,
+          "ttfb": 804.1000000238419,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181125,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1215.7000000476837,
+          "ok": true,
+          "fcp": 832,
+          "ttfb": 810.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181127,
+          "requests": null,
+          "encoding": null
+        },
+        {
+          "done": 1216,
+          "ok": true,
+          "fcp": 836,
+          "ttfb": 810.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 181126,
+          "requests": null,
+          "encoding": null
+        }
+      ]
+    }
+  ]
+}

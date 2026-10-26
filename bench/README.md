@@ -13,6 +13,7 @@ Compares four ways of delivering the same site, over HTTP/1.1 and HTTP/2, in hea
 | `phext-flush` | Everything inline, flate2 with a sync-flush after every scroll. |
 | `phext-flate2` | Everything inline, one-shot flate2 -9 instead of libdeflate -12. |
 | `phext-br` / `phext-zstd` | Everything inline, served as `Content-Encoding: br` (q11) / `zstd` (-19). |
+| `phext-nginx` / `phext-nginx-static` | Real nginx: the bundle built on the fly by `ngx_http_phext_module`, or the pre-built bundle via `gzip_static`. Start it first with `servers/nginx-bench.sh start <fixture>` (Linux/WSL); see [../servers/README.md](../servers/README.md). |
 
 Results before inline-everything shipped (2026-10-26, in `RESULTS.md`) used the earlier names: there `phext` is
 today's `phext-2rt`, `phext-all` is today's `phext` (byte-identical bundles), and the encoder and flush

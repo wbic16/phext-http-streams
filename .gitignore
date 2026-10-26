@@ -13,3 +13,4 @@ bench/certs/
 bench/profiles/
 browser/sw-loader/dist/
 bench/run.log
+bench/*.log

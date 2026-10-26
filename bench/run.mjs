@@ -107,9 +107,22 @@ const median = (a) => {
 const pct = (a, p) => [...a].sort((x, y) => x - y)[Math.min(a.length - 1, Math.floor((a.length - 1) * p))];
 
 const isPhext = (v) => v.startsWith('phext');
+// `phext-nginx`: the bundle comes from real nginx + the phext module (servers/nginx-bench.sh start <fixture>),
+// reached on PHEXT_NGINX_H2 / PHEXT_NGINX_H1 (default 18443 / 18444) instead of the Node origin.
+const EXTERNAL = {
+  'phext-nginx': { h2: Number(process.env.PHEXT_NGINX_H2 || 18443), h1: Number(process.env.PHEXT_NGINX_H1 || 18444) },
+  // same nginx, pre-built bundle served statically (gzip_static): separates the module from the WSL/nginx path
+  'phext-nginx-static': { h2: 18453, h1: 18454 },
+};
+const externalServer = (variant, proto) => ({
+  port: EXTERNAL[variant][proto],
+  stats: { requests: null, bundleEncoding: null },
+  reset() {},
+  close: async () => {},
+});
 // identity of what a phext variant actually serves: every encoded bundle it ships
 const bundleHash = (fixture, v) => {
-  if (!isPhext(v)) return null;
+  if (!isPhext(v) || EXTERNAL[v]) return null;
   const h = createHash('sha256');
   for (const ext of ['gz', 'br', 'zst']) {
     const f = join(here, 'out', fixture, v, `app.phext.${ext}`);
@@ -123,7 +136,7 @@ for (const fixture of FIXTURES) {
   for (const proto of PROTOS) {
     for (const [vi, variant] of VARIANTS.entries()) {
       const root = join(here, 'out', fixture, variant);
-      if (!existsSync(root)) throw new Error(`missing ${root}; run node bench/fixtures.mjs`);
+      if (!EXTERNAL[variant] && !existsSync(root)) throw new Error(`missing ${root}; run node bench/fixtures.mjs`);
       // a phext variant whose bundle is byte-identical to an earlier one would measure the same thing twice
       const hash = bundleHash(fixture, variant);
       const twin = hash && VARIANTS.slice(0, vi).find((v) => bundleHash(fixture, v) === hash);
@@ -136,8 +149,9 @@ for (const fixture of FIXTURES) {
         continue;
       }
       // Link: preload goes to every subresource for `preload`, and to the bundle's externals for phext and inline
-      const linksPath =
-        variant === 'preload'
+      const linksPath = EXTERNAL[variant]
+        ? null
+        : variant === 'preload'
           ? join(here, 'out', fixture, 'preload.links')
           : isPhext(variant)
             ? join(root, 'app.links')
@@ -145,7 +159,7 @@ for (const fixture of FIXTURES) {
               ? join(here, 'out', fixture, 'phext', 'app.links')
               : null;
       const links = linksPath ? readFileSync(linksPath, 'utf8').split('\n').filter(Boolean) : [];
-      const server = await startServer({ root, proto, links, tls });
+      const server = EXTERNAL[variant] ? externalServer(variant, proto) : await startServer({ root, proto, links, tls });
       for (const rtt of RTTS) {
         const proxy = await startProxy({ targetPort: server.port, rttMs: rtt, mbps: MBPS });
         const url = `https://127.0.0.1:${proxy.port}`;

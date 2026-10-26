@@ -3,6 +3,55 @@
 **Shipped (2026-10-26): `phext-bundle` inlines everything by default.** In the sections below, which predate
 that change, `phext-all` is the shipped default (byte-identical bundles) and `phext` is today's `phext-2rt`.
 
+## Phase 2: nginx and httpd modules (2026-10-26)
+
+### Chrome end-to-end through real nginx
+
+[results/nginx/](results/nginx/): 6 runs per cell, no invalid runs. `phext-nginx` = nginx 1.18 + `ngx_http_phext_module` building
+the bundle from the fixture's files. `phext-nginx-static` = the same nginx serving the pre-built bundle via
+`gzip_static`. `phext` = the Node origin serving the pre-built bundle. Done time, ms:
+
+| Fixture | Proto | RTT | `phext` (Node) | `phext-nginx-static` | **`phext-nginx` (module)** |
+|---|---|---|---|---|---|
+| small | h2 | 50 | 259 | 257 | **257** |
+| small | h1 | 200 | 1038 | 1012 | **1013** |
+| spa | h2 | 200 | 1215 | 1216 | **1217** |
+| spa | h1 | 200 | 1221 | 1220 | **1221** |
+| icons | h2 | 50 | 260 | 261 | **262** |
+| channels | h1 | 200 | 833 | 834 | **835** |
+
+In all 16 cells, the module is within 3 ms of nginx serving the same bundle as a static file. The one
+exception is small/h2/200 ms, at +24 ms with a noisy p90. It's also within a few ms of the Node origin. The
+module adds no measurable page-load latency, and the HTTP/1.1 results from Phase 1 carry over to a
+production server.
+
+**What an earlier run caught.** The first end-to-end run served fixtures from `/mnt/c`, a 9P share under WSL,
+and the module was 70–400 ms slower. It re-checked the directory on the request path, and one stat walk of
+the 102-file `spa` directory takes **607 ms on `/mnt/c` versus 0.15 ms on ext4**. Both modules now re-check
+off the request path: an nginx per-worker timer, and an httpd watcher thread. The benchmark serves from the
+local filesystem, as a deployment would.
+
+### Load ([results/load.md](results/load.md))
+
+`h2load`, 20,000 requests, 16 connections, `spa` bundle (394 KB plain), WSL2 on 16 CPUs:
+
+| | req/s | 2xx |
+|---|---|---|
+| nginx HTTP/2, module | 11,839 | 20,000 |
+| nginx HTTP/2, `gzip_static` pre-built | 11,080 | 20,000 |
+| nginx HTTP/1.1 (TLS), module | 11,081 | 20,000 |
+| nginx HTTP/1.1 (TLS), `gzip_static` | 10,352 | 20,000 |
+| httpd HTTP/1.1, mod_phext | 12,616 | 20,000 |
+
+The module serves at the rate nginx serves a static file. Rows vary ±20% between runs on this machine, so
+read them as parity, not as one beating the other. A full build of this bundle (walk, assemble, gzip 6 +
+br 5 + zstd 3) takes **13 ms per nginx worker** (at startup) and **17–18 ms per httpd child** (on its
+first request).
+
+**What the load test caught.** mod_phext initially returned 500 to requests that arrived while a new child
+process was still building its first bundle (524 of 20,000). Those requests now wait for the build.
+`servers/test.sh` covers this with 64 concurrent first requests per server.
+
 ## Variation matrix (2026-10-26): budget, gzip flushing, encoders
 
 Full tables: [results/2026-10-26T03-31-45.md](results/2026-10-26T03-31-45.md) (pivot),

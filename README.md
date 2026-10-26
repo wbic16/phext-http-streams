@@ -17,7 +17,9 @@ gzip'd phext stream in the first response flight, instead of a discover-then-fet
 | `tools/phext-bundle` | CLI: directory in, gzip'd bundle + report out. Inlines everything by default (binaries as base64); budgeted mode leaves some binaries external with preload links. |
 | `core/phext-stream-wasm` | The bundle reader as a dependency-free WebAssembly module. |
 | `browser/sw-loader` | Service Worker that serves a page from a phext bundle (`node browser/sw-loader/build.mjs`). |
-| `servers/nginx` | Static serving config for stock nginx, plus a check script. |
+| `servers/phext-server` | Rust static library behind the server modules (`phext_server.h`): build, pre-encode, and fingerprint bundles. |
+| `servers/nginx` | `ngx_http_phext_module` (`phext_bundle`, `phext_serve`), plus static serving config for stock nginx. |
+| `servers/httpd` | `mod_phext` for Apache httpd 2.4. See [servers/README.md](servers/README.md). |
 | `bench` | HTTP/1.1 vs HTTP/2 delivery benchmark: network model, origin, fixtures, Chrome runner. [Results](bench/RESULTS.md). |
 
 ## Build and test
@@ -40,8 +42,10 @@ library and drives it from C via MSVC; on Linux see the comment at the top of `t
 
 ## Status
 
-Phase 0 (spec + core) and Phase 1 (bundler, static nginx, Service Worker loader, benchmark) are done; see
+Phase 0 (spec + core), Phase 1 (bundler, Service Worker loader, benchmark), and Phase 2 (nginx and httpd
+modules, [servers/README.md](servers/README.md)) are done; see
 [bench/RESULTS.md](bench/RESULTS.md). With everything in one phext response, HTTP/1.1 runs within 4% of
 HTTP/2 and 27–56% faster than HTTP/2 serving plain files, across 4 fixtures at 20–200 ms RTT. Gzip flushing
 and the choice of encoder made no measurable difference to load time; a bigger inline budget did. Next:
-first-visit measurements, then Phase 2 server modules. Bundles inline everything by default.
+first-visit measurements and native browser support (Stage B). Bundles inline everything by default; the
+server modules serve them at the same rate as nginx `gzip_static`, with no measurable page-load cost.

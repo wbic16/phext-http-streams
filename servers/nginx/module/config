@@ -1,0 +1,15 @@
+ngx_addon_name=ngx_http_phext_module
+
+# PHEXT_LIB: path to libphext_server.a (cargo build --release -p phext-server)
+if [ -z "$PHEXT_LIB" ]; then
+    PHEXT_LIB="$ngx_addon_dir/../../../target/release/libphext_server.a"
+fi
+
+ngx_module_type=HTTP
+ngx_module_name=ngx_http_phext_module
+ngx_module_incs="$ngx_addon_dir/../../phext-server/include $ngx_addon_dir/../../../core/phext-stream-capi/include"
+ngx_module_deps=
+ngx_module_srcs="$ngx_addon_dir/ngx_http_phext_module.c"
+ngx_module_libs="$PHEXT_LIB -lpthread -ldl -lm"
+
+. auto/module

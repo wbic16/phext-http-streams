@@ -1,0 +1,18 @@
+[package]
+name = "phext-server"
+description = "C ABI for web server modules: build, cache-validate, and pre-encode phext bundles from a directory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[lib]
+name = "phext_server"
+# one static library per module: it also re-exports the phext-stream C ABI (phext_stream.h)
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+phext-stream = { path = "../../core/phext-stream" }
+phext-stream-capi = { path = "../../core/phext-stream-capi" }
+phext-bundle = { path = "../../tools/phext-bundle" }

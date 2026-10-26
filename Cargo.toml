@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["core/phext-stream", "core/phext-stream-capi", "core/phext-stream-wasm", "tools/phext-bundle"]
+members = ["core/phext-stream", "core/phext-stream-capi", "core/phext-stream-wasm", "tools/phext-bundle", "servers/phext-server"]
 exclude = ["fuzz", "core/test-vectors/check-cs"]
 
 [workspace.package]

@@ -1,1 +1,4 @@
+# LF everywhere; phext files are byte-exact test data (some contain CR on purpose)
+* text=auto eol=lf
+*.phext -text
 *.sh text eol=lf

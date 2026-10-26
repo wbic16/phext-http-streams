@@ -72,6 +72,9 @@ pub struct Options {
     pub flight_budget: usize,
     pub flush: Flush,
     pub level: u32,
+    /// Also produce `Built::gz` with flate2 at `level` (with `flush` points). Callers that compress the
+    /// plain stream themselves (the server modules) turn it off; budget checks always measure with it.
+    pub flate2: bool,
 }
 
 impl Default for Options {
@@ -81,6 +84,7 @@ impl Default for Options {
             flight_budget: UNLIMITED,
             flush: Flush::None,
             level: 9,
+            flate2: true,
         }
     }
 }
@@ -162,15 +166,19 @@ fn assemble(assets: &[Asset], decisions: &[Decision], opts: &Options) -> io::Res
         Flush::Header => &closes[..closes.len().min(1)],
         Flush::All => &closes,
     };
-    let mut gz = GzEncoder::new(Vec::new(), Compression::new(opts.level));
-    let mut prev = 0;
-    for &at in flush_at {
-        gz.write_all(&phext[prev..at])?;
-        gz.flush()?;
-        prev = at;
-    }
-    gz.write_all(&phext[prev..])?;
-    let gz = gz.finish()?;
+    let gz = if opts.flate2 {
+        let mut gz = GzEncoder::new(Vec::new(), Compression::new(opts.level));
+        let mut prev = 0;
+        for &at in flush_at {
+            gz.write_all(&phext[prev..at])?;
+            gz.flush()?;
+            prev = at;
+        }
+        gz.write_all(&phext[prev..])?;
+        gz.finish()?
+    } else {
+        Vec::new()
+    };
 
     let links = assets
         .iter()
@@ -213,7 +221,11 @@ pub fn build(assets: &[Asset], opts: &Options) -> io::Result<Built> {
         if opts.flight_budget == UNLIMITED {
             continue; // nothing to check, and no need to compress a trial bundle per asset
         }
-        let trial = assemble(assets, &decisions, opts)?;
+        let measure = Options {
+            flate2: true,
+            ..opts.clone()
+        };
+        let trial = assemble(assets, &decisions, &measure)?;
         if trial.gz.len() > opts.flight_budget {
             decisions[i] = Decision::External("over flight_budget");
         }
