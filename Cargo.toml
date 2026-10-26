@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["core/phext-stream", "core/phext-stream-capi"]
+members = ["core/phext-stream", "core/phext-stream-capi", "core/phext-stream-wasm", "tools/phext-bundle"]
 exclude = ["fuzz", "core/test-vectors/check-cs"]
 
 [workspace.package]
@@ -13,3 +13,10 @@ repository = "https://github.com/wbic16/phext-http-streams"
 [profile.release]
 lto = true
 codegen-units = 1
+
+# cargo build --profile wasm --target wasm32-unknown-unknown -p phext-stream-wasm
+[profile.wasm]
+inherits = "release"
+opt-level = "z"
+panic = "abort"
+strip = true

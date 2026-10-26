@@ -9,6 +9,24 @@ Baseline: [wbic16/libphext-rs](https://github.com/wbic16/libphext-rs) v0.3.1 (`s
 - Agreement: differential tests and fuzz-style tests against libphext 0.3.1. The shared vectors pass 20/20 on Rust and C#, and 19/20 on Python and Node.
 - Open: the 24 h cargo-fuzz run needs a Linux box. The WASM build moves to Phase 1 with the Service Worker loader.
 
+**Status (2026-10-26): Phase 1 complete; decision gate passed.**
+- `tools/phext-bundle` implements the inline rule, writes pre-gzip'd bundles, and emits preload links for externals.
+- `browser/sw-loader`: a Service Worker with the WASM reader embedded. It streams each resource as it arrives and prefetches externals as soon as the header arrives.
+- `servers/nginx`: stock nginx serves pre-built bundles via `gzip_static`, checked over HTTP/2 and HTTP/1.1.
+- `bench`: a network-model proxy, an HTTP/1.1 and HTTP/2 origin, three fixtures in four variants, and a Chrome runner.
+- Results are in `bench/RESULTS.md`:
+  - HTTP/1.1 + phext is 10–51% faster than HTTP/2 without it.
+  - At 150 ms RTT phext beats Early Hints and inline-everything on every fixture.
+  - Caveat: returning visitors only (Service Worker already installed).
+
+**Status (2026-10-26): variation matrix done** (`bench/RESULTS.md`, top section).
+- Default budget is now HTTP/2's request → response → request window (2 slow-start rounds, 43,800 B), with one-shot gzip from libdeflate -12.
+- Inlining everything (`phext-all`) beat the 2-round budget wherever images were left external. It beat the best baseline in 28 of 32 rows, and HTTP/1.1 ran within 4% of HTTP/2.
+- Per-scroll flushing and br/zstd/zopfli made no load-time difference at these sizes.
+- Open: whether to make "inline everything" the default; `phext-all`'s one-RTT later first paint on `small`; first-visit cost.
+
+**Decision (2026-10-26): ship inline-everything as the default.** `phext-bundle` now inlines every asset (binaries as base64) unless given `--inline-max` / `--flight-budget` / `--budget-rounds` (budgeted mode, spec §3.2). Over HTTP/2, text-only bundles with binaries left to multiplexing tied the 2-round budget but were ~17% slower than inlining everything; over HTTP/1.1 they were up to 2.2× slower.
+
 ## 1. Goal, stated precisely
 
 Deliver a multi-resource artifact (HTML + CSS + JS + data, potentially many logical channels) as **one phext stream on one HTTP response**, so the browser has everything it needs in the first response flight instead of discovering and fetching resources one round trip at a time.
@@ -53,10 +71,10 @@ The phext bundle's job is to fill the window *before* HTTP/2 multiplexing is doi
 ```
 inline(asset) =  is_text(asset)
               || ( base64_len(asset) <= phext_inline_max            # default 8 KB
-                   && gzip_len(bundle + asset) <= phext_flight_budget )  # default 14 KB, ≈ initcwnd 10
+                   && gzip_len(bundle + asset) <= phext_flight_budget )  # default 43,800 B: 2 slow-start rounds
 ```
 
-Assets are considered in priority order, so the budget is spent on what the page needs first. Both thresholds are configurable and get tuned from benchmark data (e.g. a 2-flight budget of ~42 KB may win on high-RTT links). There is no raw-binary scroll extension; large binaries stay on H2.
+Assets are considered in priority order, so the budget is spent on what the page needs first. Both thresholds are configurable. **Revised 2026-10-26:** the default budget is what slow start delivers in the 2 round trips HTTP/2 needs after its handshake for request → response → request: initcwnd × 3 = 43,800 bytes (spec §3.2). The original 14 KB single-flight budget is kept as a benchmark variant. There is no raw-binary scroll extension; large binaries stay on H2.
 
 ## 3. Architecture
 
@@ -115,7 +133,7 @@ Land it as a new module/crate alongside libphext-rs (or inside it as `phext::str
 
 - **Media type:** `application/vnd.phext` (or `application/x-phext` for the experiment).
 - **Compression: gzip is required.** Every bundle response is served with `Content-Encoding: gzip` (the client must advertise it; every browser does). The client decompresses, then decodes. Phext's single-byte delimiters and repeated header paths compress very well, and one gzip context across all scrolls beats per-file compression for small resources. Brotli/zstd can be negotiated later as an option, measured against gzip, but gzip is the baseline every component must support.
-  - **Streaming-safe gzip:** the server sync-flushes (`Z_SYNC_FLUSH`) at scroll boundaries, at minimum after the header scroll and each critical scroll, so the client can decode a finished scroll without waiting for the compressor to fill its buffer. Flushing costs a few bytes each; flush points are configurable.
+  - **One-shot gzip (revised 2026-10-26):** bundles are compressed as a single stream with no flush points; the budget keeps them within the round trips HTTP/2 needs anyway. Per-scroll sync-flush (`--flush all`) remains an option and a benchmark variant.
   - **Pre-compressed static bundles:** the bundler writes `app.phext.gz` next to `app.phext` (gzip level 9, or zopfli for maximum ratio). Servers send it as-is, so there's no per-request compression CPU.
 - **Scroll `1.1.1/1.1.1/1.1.1` = bundle header**, plain text, one line per resource, in priority order:
   ```
@@ -148,7 +166,7 @@ location ~ \.phext$ {
 }
 ```
 
-- **Dynamic bundling** builds an `ngx_chain_t` of `[delimiter buf][file buf][delimiter buf][file buf]…` (delimiter bufs are a few static bytes, file bufs are `in_file` bufs) and passes it through nginx's stock **gzip filter**. The module sets `buf->flush` on scroll boundaries so the gzip filter sync-flushes there. Because gzip reads the file data into memory, `sendfile` doesn't apply on this path.
+- **Dynamic bundling** builds an `ngx_chain_t` of `[delimiter buf][file buf][delimiter buf][file buf]…` (delimiter bufs are a few static bytes, file bufs are `in_file` bufs) and passes it through nginx's stock **gzip filter**. Compression is one-shot by default; as an option, the module sets `buf->flush` on scroll boundaries so the gzip filter sync-flushes there. Because gzip reads the file data into memory, `sendfile` doesn't apply on this path.
 - **Compressed-bundle cache:** compressing on every request is wasted CPU, so the module caches the finished `.gz` bundle on disk keyed on (manifest, every input's inode/mtime/size) and serves it like a static file. That path *is* zero-copy (`sendfile`, or kTLS under TLS).
 - **Inline decision** (§2) runs at cache-build time: text inlined, small binaries base64'd until the gzip flight budget is hit, everything else becomes `external` plus a `Link: rel=preload` header (and `103 Early Hints` via `early_hints` on nginx ≥ 1.29 — verify version).
 - **Validation** of forbidden bytes is cached on (inode, mtime, size) in a shared-memory zone, so files aren't re-scanned per request.
@@ -169,7 +187,7 @@ gzip_static     on;         # serve app.phext.gz directly when present
 ### 4.2 Apache httpd — `mod_phext`
 
 - Same directives, same core library, same inline rule and compressed-bundle cache. Content handler builds an APR bucket brigade of **file buckets + immortal buckets** (delimiters) — the direct analogue of the nginx chain.
-- **gzip via `mod_deflate`:** `AddOutputFilterByType DEFLATE application/vnd.phext`. The handler inserts `FLUSH` buckets at scroll boundaries; mod_deflate sync-flushes zlib on them. Cached pre-compressed bundles are served directly with `Content-Encoding: gzip` and skip mod_deflate.
+- **gzip via `mod_deflate`:** `AddOutputFilterByType DEFLATE application/vnd.phext`. One-shot by default; optionally the handler inserts `FLUSH` buckets at scroll boundaries, and mod_deflate sync-flushes zlib on them. Cached pre-compressed bundles are served directly with `Content-Encoding: gzip` and skip mod_deflate.
 - Large binaries become `external` entries plus `Link: rel=preload`; mod_http2 can send `103 Early Hints` via `H2EarlyHints on`.
 - Optional output filter `PHEXT` to wrap an arbitrary upstream response into a scroll at a configured coordinate (useful for bundling proxied/CGI content).
 - Build with `apxs`, linking `libphext_stream.a`. httpd has no official Rust bindings, so C glue + C ABI is the right shape.
@@ -236,7 +254,7 @@ phext-web/
 |---|---|
 | Inlining everything already captures most of the RTT win | Gate decision on data; position phext on multi-channel structure, per-scroll caching (xxh3), and delta sync |
 | Bundle grows past the first flights and delays the scrolls that matter | Flight budget enforced by the bundler and modules; large binaries are always `external` on H2 |
-| Compressor buffering hides scroll boundaries from the client | Sync-flush at scroll boundaries (§3.2); harness measures time-to-first-decoded-scroll |
+| Compressor buffering hides scroll boundaries from the client | Bundles are sized to the 2-round budget, so one-shot gzip arrives whole within it; per-scroll flushing is benchmarked as a variant |
 | Per-request gzip CPU on dynamic bundles | Compressed-bundle cache; pre-built `.gz` for static bundles |
 | Chromium upstream acceptance is a long shot | Keep Stage B as a maintained patch set for testing; SW path remains the portable deployment |
 | Delimiter bytes in "text" (e.g., raw `0x1F` in a minified JS string) | Server-side validation is mandatory, never optional; bundler treats that file as binary (base64 if small, otherwise `external`) |

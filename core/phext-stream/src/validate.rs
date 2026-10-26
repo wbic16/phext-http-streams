@@ -28,3 +28,5 @@ pub fn validate(content: &[u8]) -> Result<(), ForbiddenByte> {
         }),
     }
 }
+
+impl core::error::Error for ForbiddenByte {}

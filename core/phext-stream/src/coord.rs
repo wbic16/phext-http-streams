@@ -231,3 +231,5 @@ impl Break {
         self as u8
     }
 }
+
+impl core::error::Error for ParseError {}

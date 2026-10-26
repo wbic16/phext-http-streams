@@ -109,3 +109,5 @@ impl fmt::Display for EncodeError {
         }
     }
 }
+
+impl core::error::Error for EncodeError {}

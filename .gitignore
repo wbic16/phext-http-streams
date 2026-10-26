@@ -5,3 +5,11 @@
 *.ilk
 bin/
 obj/
+
+# bench
+bench/node_modules/
+bench/out/
+bench/certs/
+bench/profiles/
+browser/sw-loader/dist/
+bench/run.log

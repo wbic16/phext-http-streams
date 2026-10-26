@@ -1,0 +1,317 @@
+{
+  "config": {
+    "FIXTURES": [
+      "small"
+    ],
+    "PROTOS": [
+      "h1"
+    ],
+    "VARIANTS": [
+      "phext",
+      "phext-br"
+    ],
+    "RTTS": [
+      50
+    ],
+    "RUNS": 12,
+    "MBPS": 50
+  },
+  "results": [
+    {
+      "fixture": "small",
+      "proto": "h1",
+      "variant": "phext",
+      "rtt": 50,
+      "doneMedian": 317.14999997615814,
+      "doneP90": 317.60000002384186,
+      "fcpMedian": 192,
+      "connections": 2,
+      "requests": 4,
+      "kbDown": 74.2197265625,
+      "invalid": 0,
+      "encoding": "gzip",
+      "runs": [
+        {
+          "done": 318.2999999523163,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 164.29999995231628,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76002,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.5,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.39999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76001,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 317.60000002384186,
+          "ok": true,
+          "fcp": 188,
+          "ttfb": 163.20000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76000,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 317.39999997615814,
+          "ok": true,
+          "fcp": 196,
+          "ttfb": 163.70000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76003,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.2000000476837,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76002,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.39999997615814,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76002,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 317,
+          "ok": true,
+          "fcp": 200,
+          "ttfb": 163.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76001,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 317.2999999523163,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76000,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.39999997615814,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.5,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76001,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 317.3000000715256,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76002,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 316.59999990463257,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76001,
+          "requests": 4,
+          "encoding": "gzip"
+        },
+        {
+          "done": 318.2000000476837,
+          "ok": true,
+          "fcp": 196,
+          "ttfb": 164.39999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 76000,
+          "requests": 4,
+          "encoding": "gzip"
+        }
+      ]
+    },
+    {
+      "fixture": "small",
+      "proto": "h1",
+      "variant": "phext-br",
+      "rtt": 50,
+      "doneMedian": 316.75,
+      "doneP90": 318.39999997615814,
+      "fcpMedian": 192,
+      "connections": 2,
+      "requests": 4,
+      "kbDown": 73.61572265625,
+      "invalid": 0,
+      "encoding": "br",
+      "runs": [
+        {
+          "done": 316.5,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.89999997615814,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75382,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 316.39999997615814,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.70000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75383,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 316.89999997615814,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75383,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 319.10000002384186,
+          "ok": true,
+          "fcp": 200,
+          "ttfb": 164.70000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75383,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 317.7000000476837,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75383,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 315.89999997615814,
+          "ok": true,
+          "fcp": 188,
+          "ttfb": 162,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75381,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 316.60000002384186,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 162.80000007152557,
+          "sw": true,
+          "connections": 3,
+          "bytesDown": 76520,
+          "requests": 3,
+          "encoding": "br"
+        },
+        {
+          "done": 316.60000002384186,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75383,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 318.39999997615814,
+          "ok": true,
+          "fcp": 200,
+          "ttfb": 164.70000004768372,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75382,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 319.1999999284744,
+          "ok": true,
+          "fcp": 196,
+          "ttfb": 165.19999992847443,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75382,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 316.39999997615814,
+          "ok": true,
+          "fcp": 188,
+          "ttfb": 162.10000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75381,
+          "requests": 4,
+          "encoding": "br"
+        },
+        {
+          "done": 317.7000000476837,
+          "ok": true,
+          "fcp": 192,
+          "ttfb": 163.60000002384186,
+          "sw": true,
+          "connections": 2,
+          "bytesDown": 75380,
+          "requests": 4,
+          "encoding": "br"
+        }
+      ]
+    }
+  ]
+}

@@ -153,3 +153,5 @@ impl Header {
             .find(|(_, e)| e.location == Location::Inline(c))
     }
 }
+
+impl core::error::Error for HeaderError {}

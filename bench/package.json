@@ -1,0 +1,14 @@
+{
+  "name": "phext-bench",
+  "private": true,
+  "type": "module",
+  "description": "HTTP/1.1 and HTTP/2 delivery benchmarks for phext bundles",
+  "scripts": {
+    "fixtures": "node fixtures.mjs",
+    "test": "node test-proxy.mjs && node ../browser/sw-loader/test-wasm.mjs",
+    "bench": "node run.mjs"
+  },
+  "dependencies": {
+    "puppeteer-core": "24.43.1"
+  }
+}

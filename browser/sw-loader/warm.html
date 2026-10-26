@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>phext: installing</title>
+<p id="s">Installing the phext Service Worker…</p>
+<script>
+  // Registers the worker and reports readiness in the title (the harness waits for "phext: ready").
+  const bundle = new URLSearchParams(location.search).get('bundle') || '/app.phext';
+  navigator.serviceWorker.register('/phext-sw.js?bundle=' + encodeURIComponent(bundle), { scope: '/' })
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => { document.title = 'phext: ready'; document.getElementById('s').textContent = 'Ready.'; })
+    .catch((e) => { document.title = 'phext: failed'; document.getElementById('s').textContent = String(e); });
+</script>

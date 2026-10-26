@@ -10,7 +10,11 @@ fn doc(len: usize, scroll_len: usize) -> Vec<u8> {
         for _ in 0..scroll_len / line.len() {
             v.extend_from_slice(line);
         }
-        v.push(if v.len().is_multiple_of(7) { 0x18 } else { 0x17 });
+        v.push(if v.len().is_multiple_of(7) {
+            0x18
+        } else {
+            0x17
+        });
     }
     v
 }

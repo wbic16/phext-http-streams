@@ -137,3 +137,5 @@ impl Decoder {
         Ok(())
     }
 }
+
+impl core::error::Error for Base64Error {}

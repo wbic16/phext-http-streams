@@ -8,7 +8,7 @@ use alloc::vec::Vec;
 use core::fmt;
 
 /// Headers larger than this are rejected rather than buffered without bound.
-const DEFAULT_MAX_HEADER: usize = 64 * 1024;
+const DEFAULT_MAX_HEADER: usize = 1024 * 1024;
 
 #[derive(Debug)]
 pub enum BundleEvent<'a> {
@@ -230,3 +230,5 @@ impl Inner {
         }
     }
 }
+
+impl core::error::Error for BundleError {}

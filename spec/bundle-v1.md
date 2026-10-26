@@ -35,7 +35,7 @@ Scroll content MUST NOT contain any of the nine break bytes. Encoders MUST valid
 ## 3. Bundle
 
 - Media type: `application/vnd.phext` (experimental alias: `application/x-phext`).
-- Servers MUST send bundles with `Content-Encoding: gzip`. Servers SHOULD sync-flush the compressor after the header scroll and after every scroll the bundler marks critical. Pre-compressed bundles are the preferred serving path.
+- Servers MUST send bundles with `Content-Encoding: gzip`. Bundles are compressed **one-shot** by default: a single gzip stream with no flush points, which is the smallest output. The bundle is sized (§3.2) to arrive within the round trips HTTP/2 would spend anyway, so it doesn't need intermediate flushes. Encoders MAY sync-flush at scroll boundaries as an option. Pre-compressed bundles are the preferred serving path.
 
 ### 3.1 Header scroll
 
@@ -54,16 +54,25 @@ phext-bundle 1
 - `external` means the resource is not in the bundle; the client fetches `path` normally. Servers SHOULD also advertise external resources with `Link: <path>; rel=preload` (and `103 Early Hints` where supported).
 - Lines are in priority order. Content scrolls SHOULD appear in the stream in the same order as their header lines; since coordinates must increase, bundlers assign coordinates in priority order.
 - Unknown lines starting with `#` are comments. Decoders MUST ignore them.
+- Decoders MAY cap the header's size, but MUST accept at least 1 MiB (a 2,500-entry header is ~100 KiB).
 
 A resource listed with a coordinate but absent from the stream (no scroll at that coordinate by end of stream) is an error for that resource only; clients SHOULD fall back to fetching `path`.
 
 ### 3.2 Inline rule (bundler and server modules)
 
+**Default: inline everything.** Every non-empty asset goes in the bundle. Text that passes validation travels as-is; binaries, and text containing break bytes, travel as `;base64` scrolls. Empty assets are listed as `external`, because an empty scroll is invisible on the wire.
+
+Rationale (measured in `bench/RESULTS.md`): an external resource can't be requested until the header scroll arrives, so it costs at least one more round trip, plus slow start on that request. Bytes added to the bundle ride a congestion window that is already open. Inlining everything gave the fastest (or tied) complete page in every fixture that had binaries, over HTTP/1.1 and HTTP/2, at 20–200 ms RTT.
+
+**Budgeted mode (optional).** Encoders MAY leave binaries external to keep the bundle small, for example for an earlier first paint or so large assets can be cached separately:
+
 ```
 inline(asset) =  is_text(asset) && validate(asset) == ok
-              || ( base64_len(asset) <= inline_max              # default 8 KiB
-                   && gzip_len(bundle + asset) <= flight_budget ) # default 14 KiB
+              || ( base64_len(asset) <= inline_max
+                   && gzip_len(bundle + asset) <= flight_budget )
 ```
+
+A natural budget is what TCP slow start delivers in the round trips HTTP/2 spends after its handshake: one for the document, one for the multiplexed subresources. That is `initcwnd × (2² − 1)` = 3 × 10 segments × 1460 = **43,800 bytes** with the standard 10-segment initial window. Where bandwidth rather than slow start is the limit, use `min(that, bandwidth × 2 RTT)`; other round counts give `initcwnd × (2ⁿ − 1)`.
 
 Assets are considered in priority order. A text asset that fails validation is treated as binary. Everything not inlined is `external`.
 
